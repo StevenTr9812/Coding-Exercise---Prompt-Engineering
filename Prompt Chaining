@@ -1,0 +1,85 @@
+# This program simulates a customer support prompt chain.
+# The output from each step is used by the next step.
+
+customer_message = (
+    "I was charged twice for my monthly subscription "
+    "and need one charge refunded."
+)
+
+
+def classify_issue(message):
+    text = message.lower()
+
+    if "charged twice" in text or "refund" in text or "billing" in text:
+        category = "billing"
+    elif "password" in text or "hacked" in text or "security" in text:
+        category = "security"
+    else:
+        category = "general support"
+
+    urgency = "high" if category == "security" else "medium"
+
+    return {
+        "category": category,
+        "urgency": urgency,
+        "summary": message
+    }
+
+
+def gather_missing_information(classification):
+    if classification["category"] == "billing":
+        question = (
+            "Please provide the duplicate charge dates and the last four "
+            "digits of the payment method."
+        )
+    elif classification["category"] == "security":
+        question = (
+            "Please confirm whether you still have account access and "
+            "when you noticed the issue."
+        )
+    else:
+        question = (
+            "Please provide the order number and the exact problem "
+            "you experienced."
+        )
+
+    return {
+        "question": question,
+        "based_on": classification["category"]
+    }
+
+
+def create_response(message, classification, missing_information):
+    if classification["category"] == "billing":
+        action = (
+            "Route the case to Billing for duplicate-charge review "
+            "and possible refund."
+        )
+    elif classification["category"] == "security":
+        action = "Escalate the case immediately to the Security team."
+    else:
+        action = "Provide troubleshooting steps after the customer replies."
+
+    return (
+        "I’m sorry you experienced this. "
+        f"{missing_information['question']} "
+        f"Once received, {action}"
+    )
+
+
+classification = classify_issue(customer_message)
+missing_information = gather_missing_information(classification)
+final_response = create_response(
+    customer_message,
+    classification,
+    missing_information
+)
+
+print("Customer message:")
+print(customer_message)
+print("\nClassification:")
+print(classification)
+print("\nMissing information:")
+print(missing_information)
+print("\nFinal response:")
+print(final_response)
