@@ -1,0 +1,42 @@
+# This program follows a ReACT-style process:
+# plan, generate code, run the code, observe the results, and test errors.
+
+
+def summarize_numbers(values):
+    if not values:
+        raise ValueError("values must contain at least one number")
+
+    if any(
+        not isinstance(value, (int, float)) or isinstance(value, bool)
+        for value in values
+    ):
+        raise TypeError("all values must be numbers")
+
+    return {
+        "mean": sum(values) / len(values),
+        "minimum": min(values),
+        "maximum": max(values),
+        "count": len(values)
+    }
+
+
+numbers = [4, 8, 10, 6]
+result = summarize_numbers(numbers)
+
+print("Results for", numbers)
+print(result)
+
+print("\nTesting invalid inputs:")
+
+invalid_inputs = [
+    [],
+    [1, "two", 3]
+]
+
+for values in invalid_inputs:
+    try:
+        summarize_numbers(values)
+    except (ValueError, TypeError) as error:
+        print(type(error).__name__ + ":", error)
+
+print("\nAll tests completed successfully.")
