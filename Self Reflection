@@ -1,0 +1,33 @@
+# This program compares an original summary with an improved summary.
+# The improved version follows accuracy, clarity, audience, length,
+# and formatting requirements.
+
+original_summary = (
+    "Prompt engineering helps AI do tasks better. It uses different "
+    "methods to guide the AI and improve its answers."
+)
+
+improved_summary = (
+    "Prompt engineering uses clear, specific instructions and constraints "
+    "to guide AI toward better results. Techniques such as role prompting, "
+    "prompt chaining, ReACT, and self-reflection help AI follow steps, test "
+    "work, and revise weak answers."
+)
+
+word_count = len(improved_summary.split())
+sentence_count = improved_summary.count(".")
+
+print("Original summary:")
+print(original_summary)
+
+print("\nImproved summary:")
+print(improved_summary)
+
+print("\nChecks:")
+print("Sentence count:", sentence_count)
+print("Word count:", word_count)
+
+assert sentence_count == 2
+assert word_count <= 45
+
+print("The improved summary meets the requirements.")
